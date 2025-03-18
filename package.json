@@ -20,7 +20,9 @@
   },
   "scripts": {
     "start": "cds-serve",
-    "watch-priceview": "cds watch --open priceview/webapp/index.html?sap-ui-xx-viewCache=false"
+    "watch-priceview": "cds watch --open priceview/webapp/index.html?sap-ui-xx-viewCache=false",
+    "deploy": "cds deploy",
+    "build:cf": "cds build --profile production"
   },
   "cds": {
     "requires": {

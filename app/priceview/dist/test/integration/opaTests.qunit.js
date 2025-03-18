@@ -1,0 +1,2 @@
+sap.ui.require(["sap/fe/test/JourneyRunner","productpriceview/priceview/test/integration/FirstJourney","productpriceview/priceview/test/integration/pages/customerPriceViewList","productpriceview/priceview/test/integration/pages/customerPriceViewObjectPage"],function(e,i,r,t){"use strict";var e=new e({launchUrl:sap.ui.require.toUrl("productpriceview/priceview")+"/index.html"});e.run({pages:{onThecustomerPriceViewList:r,onThecustomerPriceViewObjectPage:t}},i.run)});
+//# sourceMappingURL=opaTests.qunit.js.map
