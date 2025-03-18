@@ -12,6 +12,7 @@
 general:
   inferBuildTool: true
   buildTool: "mta"
+  nodeVersion: "20"
 service:
   buildToolVersion: "MBTJ17N18"
   stages:
