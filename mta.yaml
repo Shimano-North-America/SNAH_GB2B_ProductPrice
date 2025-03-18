@@ -2,6 +2,7 @@ _schema-version: "3.1"
 ID: SNAH_ProductPrice
 description: A simple CAP project.
 version: 1.0.0
+
 modules:
 - name: SNAH_ProductPrice-srv
   type: nodejs
@@ -19,6 +20,7 @@ modules:
     readiness-health-check-type: http
   build-parameters:
     builder: npm
+
 - name: SNAH_ProductPrice-db-deployer
   type: hdb
   path: gen/db
@@ -26,51 +28,55 @@ modules:
   - name: SNAH_ProductPrice-db
   parameters:
     buildpack: nodejs_buildpack
-- name: SNAH_ProductPrice
-  type: approuter.nodejs
-  path: app/router
-  requires:
-  - name: srv-api
-    group: destinations
-    properties:
-      forwardAuthToken: true
-      name: srv-api
-      url: ~{srv-url}
-  - name: SNAH_ProductPrice-auth
-  - name: SNAH_ProductPrice-destination-service
-    group: destinations
-    properties:
-      forwardAuthToken: false
-      name: ui5
-      url: https://ui5.sap.com
-  parameters:
-    disk-quota: 256M
-    keep-existing-routes: true
-    memory: 256M
-- name: SNAH_ProductPrice-app-content
-  type: com.sap.application.content
-  path: .
-  requires:
-  - name: SNAH_ProductPrice-repo-host
-    parameters:
-      content-target: true
-  build-parameters:
-    build-result: resources
-    requires:
-    - artifacts:
-      - productpriceviewpriceview.zip
-      name: productpriceviewpriceview
-      target-path: resources/
-- name: productpriceviewpriceview
-  type: html5
-  path: app/priceview
-  build-parameters:
-    build-result: dist
-    builder: custom
-    commands:
-    - npm install
-    - npm run build:cf
-    supported-platforms: []
+
+# - name: SNAH_ProductPrice
+#   type: approuter.nodejs
+#   path: app/router
+#   requires:
+#   - name: srv-api
+#     group: destinations
+#     properties:
+#       forwardAuthToken: true
+#       name: srv-api
+#       url: ~{srv-url}
+#   - name: SNAH_ProductPrice-auth
+#   - name: SNAH_ProductPrice-destination-service
+#     group: destinations
+#     properties:
+#       forwardAuthToken: false
+#       name: ui5
+#       url: https://ui5.sap.com
+#   parameters:
+#     disk-quota: 256M
+#     keep-existing-routes: true
+#     memory: 256M
+
+# - name: SNAH_ProductPrice-app-content
+#   type: com.sap.application.content
+#   path: .
+#   requires:
+#   - name: SNAH_ProductPrice-repo-host
+#     parameters:
+#       content-target: true
+#   build-parameters:
+#     build-result: resources
+#     requires:
+#     - artifacts:
+#       - productpriceviewpriceview.zip
+#       name: productpriceviewpriceview
+#       target-path: resources/
+
+# - name: productpriceviewpriceview
+#   type: html5
+#   path: app/priceview
+#   build-parameters:
+#     build-result: dist
+#     builder: custom
+#     commands:
+#     - npm install
+#     - npm run build:cf
+#     supported-platforms: []
+
 resources:
 - name: SNAH_ProductPrice-auth
   type: org.cloudfoundry.managed-service
@@ -81,37 +87,42 @@ resources:
     path: ./xs-security.json
     service: xsuaa
     service-plan: application
+
 - name: SNAH_ProductPrice-db
   type: com.sap.xs.hdi-container
   parameters:
     service: hana
     service-plan: hdi-shared
-- name: SNAH_ProductPrice-repo-host
-  type: org.cloudfoundry.managed-service
-  parameters:
-    service: html5-apps-repo
-    service-name: SNAH_ProductPrice-html5-srv
-    service-plan: app-host
-- name: SNAH_ProductPrice-destination-service
-  type: org.cloudfoundry.managed-service
-  parameters:
-    config:
-      HTML5Runtime_enabled: false
-      init_data:
-        instance:
-          destinations:
-          - Authentication: NoAuthentication
-            Name: ui5
-            ProxyType: Internet
-            Type: HTTP
-            URL: https://ui5.sap.com
-          existing_destinations_policy: update
-      version: 1.0.0
-    service: destination
-    service-name: SNAH_ProductPrice-destination-service
-    service-plan: lite
+
+# - name: SNAH_ProductPrice-repo-host
+#   type: org.cloudfoundry.managed-service
+#   parameters:
+#     service: html5-apps-repo
+#     service-name: SNAH_ProductPrice-html5-srv
+#     service-plan: app-host
+
+# - name: SNAH_ProductPrice-destination-service
+#   type: org.cloudfoundry.managed-service
+#   parameters:
+#     config:
+#       HTML5Runtime_enabled: false
+#       init_data:
+#         instance:
+#           destinations:
+#           - Authentication: NoAuthentication
+#             Name: ui5
+#             ProxyType: Internet
+#             Type: HTTP
+#             URL: https://ui5.sap.com
+#           existing_destinations_policy: update
+#       version: 1.0.0
+#     service: destination
+#     service-name: SNAH_ProductPrice-destination-service
+#     service-plan: lite
+
 parameters:
   enable-parallel-deployments: true
+
 build-parameters:
   before-all:
   - builder: custom

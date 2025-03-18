@@ -69,6 +69,9 @@ steps:
   #   dockerImage: devxci/mbtci:1.0.14
   Build:
     npmScripts: ["install", "run build"]
+    additionalSteps:
+      - name: Check Node.js Version
+        shell: "node -v && which node"
   tmsExport:
     nodeName: "DEV-COMMON-IS"
     credentialsId: "tms-sk"
